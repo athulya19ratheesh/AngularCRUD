@@ -81,6 +81,8 @@ export class UserComponent implements OnInit {
   }
 
   onEdit(row: any) {
+    this.router.navigate(['edit'])
+
     this.userModelObj.id = row.id
     this.formValue.controls['name'].setValue(row.name);
     this.formValue.controls['age'].setValue(row.age);
@@ -92,7 +94,6 @@ export class UserComponent implements OnInit {
       val.name.toLowerCase().includes(value)
     );
   }
-
   
   @ViewChildren(NgbdSortableHeader) headers!: QueryList<NgbdSortableHeader>;
 

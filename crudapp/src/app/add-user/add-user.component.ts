@@ -14,8 +14,6 @@ export class AddUserComponent implements OnInit {
   formValue !: FormGroup;
   userModelObj: UserModel = new UserModel();
   userData !: any;
-  showAdd !: boolean;
-  showEdit !: boolean;
 
   constructor(private formbuilder: FormBuilder, private api: ApiService, private router:Router) { }
 
@@ -47,5 +45,9 @@ export class AddUserComponent implements OnInit {
         err => {
           alert("An Error Occured")
         })
+  }
+
+  onCancel() {
+    this.router.navigate(['users'])
   }
 }

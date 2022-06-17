@@ -14,8 +14,6 @@ export class EditUserComponent implements OnInit {
   formValue !: FormGroup;
   userModelObj: UserModel = new UserModel();
   userData !: any;
-  showAdd !: boolean;
-  showEdit !: boolean;
 
   constructor(private formbuilder: FormBuilder, private api: ApiService, private router:Router) { }
 
@@ -36,10 +34,12 @@ export class EditUserComponent implements OnInit {
     this.userModelObj.age = this.formValue.value.age;
     this.api.updateUser(this.userModelObj, this.userModelObj.id)
       .subscribe(res => {
-        alert("Successufully Updated")
-        let ref = document.getElementById("cancel")
-        ref?.click();
-        this.formValue.reset();
+        alert("Successfully Updated")
+        this.router.navigate(['users'])
       })
+    }
+
+    onCancel() {
+      this.router.navigate(['users'])
     }
 }
