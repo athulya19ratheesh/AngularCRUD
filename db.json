@@ -1,0 +1,20 @@
+{
+  "posts": [
+    {
+      "name": "athulya1",
+      "email": "athulyar4u@gmail.com",
+      "age": 12,
+      "id": 2
+    },
+    {
+      "name": "test",
+      "email": "e@m.com",
+      "age": 22,
+      "id": 3
+    }
+  ],
+  "comments": [],
+  "profile": {
+    "name": "typicode"
+  }
+}
