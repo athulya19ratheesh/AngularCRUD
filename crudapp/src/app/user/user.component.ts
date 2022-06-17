@@ -1,7 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,OnInit, Directive, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ApiService } from '../shared/api.service';
 import { UserModel } from './user.model';
+
+export type SortDirection = 'asc' | 'desc' | '';
+const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
+export const compare = (v1: number, v2: number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
+
+export interface SortEvent {
+  column: string;
+  direction: SortDirection;
+}
+
+@Directive({
+  selector: 'th[sortable]',
+  host: {
+    '[class.asc]': 'direction === "asc"',
+    '[class.desc]': 'direction === "desc"',
+    '(click)': 'rotate()'
+  }
+})
+export class NgbdSortableHeader {
+
+  @Input() sortable!: string;
+  @Input() direction: SortDirection = '';
+  @Output() sort = new EventEmitter<SortEvent>();
+
+  rotate() {
+    this.direction = rotate[this.direction];
+    this.sort.emit({column: this.sortable, direction: this.direction});
+  }
+}
 
 @Component({
   selector: 'app-user',
@@ -13,43 +43,26 @@ export class UserComponent implements OnInit {
   formValue !: FormGroup;
   userModelObj: UserModel = new UserModel();
   userData !: any;
-  showAdd !: boolean;
-  showEdit !: boolean;
+  userDataList !: any;
+  searchTerm ='';
 
-  constructor(private formbuilder: FormBuilder, private api: ApiService) { }
+  constructor(private formbuilder: FormBuilder, private api: ApiService, private router:Router) { }
 
   ngOnInit(): void {
     this.formValue = this.formbuilder.group({
       name: [''],
       email: [''],
-      age: ['']
+      age: [''],
+      status:[''],
+      ispublic:[''],
+      createdat:['']
     })
     this.getUsers();
   }
 
   clickAddUser() {
     this.formValue.reset();
-    this.showAdd = true;
-    this.showEdit = false;
-  }
-
-  postUserDetails() {
-    this.userModelObj.name = this.formValue.value.name;
-    this.userModelObj.email = this.formValue.value.email;
-    this.userModelObj.age = this.formValue.value.age;
-
-    this.api.postUser(this.userModelObj)
-      .subscribe(res => {
-        console.log("res", res)
-        alert("User added successfully")
-        let ref = document.getElementById("cancel")
-        ref?.click();
-        this.formValue.reset();
-        this.getUsers();
-      },
-        err => {
-          alert("An Error Occured")
-        })
+    this.router.navigate(['create'])
   }
 
   getUsers() {
@@ -68,25 +81,39 @@ export class UserComponent implements OnInit {
   }
 
   onEdit(row: any) {
-    this.showAdd = false;
-    this.showEdit = true;
+    this.router.navigate(['edit'])
+
     this.userModelObj.id = row.id
     this.formValue.controls['name'].setValue(row.name);
     this.formValue.controls['age'].setValue(row.age);
     this.formValue.controls['email'].setValue(row.email);
   }
 
-  editUserDetails() {
-    this.userModelObj.name = this.formValue.value.name;
-    this.userModelObj.email = this.formValue.value.email;
-    this.userModelObj.age = this.formValue.value.age;
-    this.api.updateUser(this.userModelObj, this.userModelObj.id)
-      .subscribe(res => {
-        alert("Successufully Updated")
-        let ref = document.getElementById("cancel")
-        ref?.click();
-        this.formValue.reset();
-        this.getUsers();
-      })
+  search(value: string): void {
+    this.userDataList = this.userData.filter((val: { name: string; }) =>
+      val.name.toLowerCase().includes(value)
+    );
+  }
+  
+  @ViewChildren(NgbdSortableHeader) headers!: QueryList<NgbdSortableHeader>;
+
+  onSort({column, direction}: SortEvent) {
+
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+
+    // sorting countries
+    if (direction === '') {
+      this.userData = this.userData;
+    } else {
+      this.userData = [...this.userData].sort((a, b) => {
+        const res = compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
   }
 }

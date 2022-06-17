@@ -1,16 +1,28 @@
 {
   "posts": [
     {
-      "name": "athulya1",
-      "email": "athulyar4u@gmail.com",
-      "age": 12,
+      "name": "cathulya",
+      "email": "athul@C.OM",
+      "age": 23,
+      "id": 1
+    },
+    {
+      "name": "athulya",
+      "email": "athul@C.OM",
+      "age": 23,
       "id": 2
     },
     {
-      "name": "test",
-      "email": "e@m.com",
-      "age": 22,
+      "name": "bathulya",
+      "email": "athul@C.OM",
+      "age": 23,
       "id": 3
+    },
+    {
+      "name": "athulya1",
+      "email": "athul@C.OM",
+      "age": 23,
+      "id": 4
     }
   ],
   "comments": [],

@@ -1,77 +1,39 @@
+<nav class="navbar navbar-light bg-primary">
+    <div class="container-fluid">
+        <h2>Users</h2>
+        <div class="form-group col-md-4">
+            <input class="searchTerm" type="text" name="searchTerm" 
+            placeholder="Search By Name"
+            [(ngModel)]="searchTerm" (input)="search(searchTerm)" />
+          </div>
+    </div>
+  </nav>
+  
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">Name</th>
+            <th scope="col" sortable="name" (sort)="onSort($event)">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Age</th>
+            <th scope="col">Action</th>
         </tr>
     </thead>
 
     <tbody>
-        <tr *ngFor="let row of userData">
+        <tr *ngFor="let row of userData | searchFilter: searchTerm; index as i">
             <td>{{row.name}}</td>
             <td>{{row.email}}</td>
             <td>{{row.age}}</td>
-            <td> <button type="button" (click)="onEdit(row)" class="btn btn-secondary" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal" data-bs-dismiss="modal">Edit</button></td>
-            <td> <button type="button" (click)="deleteUser(row)" class="btn btn-secondary"
+            <td> <button type="button" (click)="onEdit(row)" class="btn btn-info" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal" data-bs-dismiss="modal">Edit</button>
+             <button type="button" (click)="deleteUser(row)" class="btn btn-danger"
                     data-bs-dismiss="modal">Delete</button></td>
         </tr>
     </tbody>
 </table>
-
 
 <!-- Button trigger modal -->
 <button type="button" (click)="clickAddUser()" class="btn btn-success" data-bs-toggle="modal"
     data-bs-target="#exampleModal">
     Add New User
 </button>
-<div>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">User Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form [formGroup]="formValue">
-                        <div class="mb-3">
-                            <input type="text" formControlName="name" class="form-control" id="inputName"
-                                placeholder="name">
-                        </div>
-                        <div class="mb-3">
-                            <input type="text" formControlName="status" class="form-control" id="inputStatusMessage"
-                                placeholder="status message">
-                        </div>
-                        <div class="mb-3">
-                            <input type="email" formControlName="email" class="form-control" id="inputEmail"
-                                placeholder="email : name@example.com">
-                        </div>
-                        <div class="mb-3">
-                            <input type="number" formControlName="age" class="form-control" id="inputAge"
-                                placeholder="age">
-                        </div>
-                        <div class="mb-3">
-                            <input type="text" formControlName="ispublic" class="form-control" id="inputIsPublic"
-                                placeholder="isPublic">
-                        </div>
-                        <div class="mb-3">
-                            <label for="inputCreatedAt" class="form-label">Created At</label>
-                            <input type="text" formControlName="createdat" class="form-control" id="inputCreatedAt"
-                                placeholder="created time">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" *ngIf="showAdd" (click)="postUserDetails()"
-                        class="btn btn-primary">Save</button>
-                    <button type="button" id="update" *ngIf="showEdit" (click)="editUserDetails()"
-                        class="btn btn-primary">Update</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
