@@ -1,28 +1,48 @@
 {
   "posts": [
     {
-      "name": "cathulya",
-      "email": "athul@C.OM",
-      "age": 23,
-      "id": 1
+      "age": 48,
+      "avatarUrl": "https://i.pravatar.cc/150?u=57955",
+      "color": "#678D0B",
+      "createdAt": "2018-06-03T09:24:13Z",
+      "email": "#olbptoo@jcyyf.ay",
+      "id": 2,
+      "isPublic": true,
+      "name": "BDBonm35kd",
+      "statusMessage": "watching Netflix"
     },
     {
-      "name": "athulya",
-      "email": "athul@C.OM",
-      "age": 23,
-      "id": 2
+      "age": 76,
+      "avatarUrl": "https://i.pravatar.cc/150?u=95846",
+      "color": "#CFFC34",
+      "createdAt": "2013-02-03T22:43:19Z",
+      "email": "#ussttxc@uorod.lm",
+      "id": 3,
+      "isPublic": true,
+      "name": "Te8n3gTcLU",
+      "statusMessage": "working from home"
     },
     {
-      "name": "bathulya",
-      "email": "athul@C.OM",
-      "age": 23,
-      "id": 3
+      "age": 57,
+      "avatarUrl": "https://i.pravatar.cc/150?u=28274",
+      "color": "#04B8B\u0000",
+      "createdAt": "2014-03-31T15:46:18Z",
+      "email": "#qaboroi@ksidr.fq",
+      "id": 4,
+      "isPublic": true,
+      "name": "K4o2kN60iu",
+      "statusMessage": "watching Netflix"
     },
     {
-      "name": "athulya1",
-      "email": "athul@C.OM",
-      "age": 23,
-      "id": 4
+      "name": "SjvbnO3jF0",
+      "email": "#yswjxd@vfxjt.yv",
+      "age": 47,
+      "id": 5,
+      "avatarUrl": "",
+      "color": "",
+      "createdAt": "2022-06-18T21:48:22.946Z",
+      "statusMessage": "working from home",
+      "isPublic": false
     }
   ],
   "comments": [],
