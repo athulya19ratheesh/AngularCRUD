@@ -15,16 +15,18 @@ export class AddUserComponent implements OnInit {
   userModelObj: UserModel = new UserModel();
   userData !: any;
 
-  constructor(private formbuilder: FormBuilder, private api: ApiService, private router:Router) { }
+  constructor(private formbuilder: FormBuilder, private api: ApiService, private router: Router) { }
 
   ngOnInit(): void {
     this.formValue = this.formbuilder.group({
       name: [''],
       email: [''],
       age: [''],
-      status:[''],
-      ispublic:[''],
-      createdat:['']
+      status: [''],
+      isPublic: [''],
+      createdat: [''],
+      statusMessage: [''],
+      avatarUrl: ['']
     })
   }
 
@@ -32,13 +34,15 @@ export class AddUserComponent implements OnInit {
     this.userModelObj.name = this.formValue.value.name;
     this.userModelObj.email = this.formValue.value.email;
     this.userModelObj.age = this.formValue.value.age;
+    this.userModelObj.avatarUrl = this.formValue.value.avatarUrl;
+    this.userModelObj.isPublic = this.formValue.value.isPublic;
+    this.userModelObj.statusMessage = this.formValue.value.statusMessage;
+    this.userModelObj.createdAt = new Date();
 
     this.api.postUser(this.userModelObj)
       .subscribe(res => {
         console.log("res", res)
         alert("User added successfully")
-        let ref = document.getElementById("cancel")
-        ref?.click();
         this.formValue.reset();
         this.router.navigate(['users'])
       },

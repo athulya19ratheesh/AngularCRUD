@@ -1,11 +1,11 @@
-import { Component,OnInit, Directive, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, Directive, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../shared/api.service';
 import { UserModel } from './user.model';
 
 export type SortDirection = 'asc' | 'desc' | '';
-const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
+const rotate: { [key: string]: SortDirection } = { 'asc': 'desc', 'desc': '', '': 'asc' };
 export const compare = (v1: number, v2: number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
 export interface SortEvent {
@@ -29,7 +29,7 @@ export class NgbdSortableHeader {
 
   rotate() {
     this.direction = rotate[this.direction];
-    this.sort.emit({column: this.sortable, direction: this.direction});
+    this.sort.emit({ column: this.sortable, direction: this.direction });
   }
 }
 
@@ -44,25 +44,26 @@ export class UserComponent implements OnInit {
   userModelObj: UserModel = new UserModel();
   userData !: any;
   userDataList !: any;
-  searchTerm ='';
+  searchTerm = '';
 
-  constructor(private formbuilder: FormBuilder, private api: ApiService, private router:Router) { }
+  constructor(private formbuilder: FormBuilder, private api: ApiService, private router: Router) { }
 
   ngOnInit(): void {
     this.formValue = this.formbuilder.group({
       name: [''],
       email: [''],
       age: [''],
-      status:[''],
-      ispublic:[''],
-      createdat:['']
+      status: [''],
+      ispublic: [''],
+      createdAt: [''],
+      statusMessage: ['']
     })
     this.getUsers();
   }
 
   clickAddUser() {
     this.formValue.reset();
-    this.router.navigate(['create'])
+    this.router.navigate(['users/create'])
   }
 
   getUsers() {
@@ -81,12 +82,7 @@ export class UserComponent implements OnInit {
   }
 
   onEdit(row: any) {
-    this.router.navigate(['edit'])
-
-    this.userModelObj.id = row.id
-    this.formValue.controls['name'].setValue(row.name);
-    this.formValue.controls['age'].setValue(row.age);
-    this.formValue.controls['email'].setValue(row.email);
+    this.router.navigate(['users/' + row.id])
   }
 
   search(value: string): void {
@@ -94,10 +90,10 @@ export class UserComponent implements OnInit {
       val.name.toLowerCase().includes(value)
     );
   }
-  
+
   @ViewChildren(NgbdSortableHeader) headers!: QueryList<NgbdSortableHeader>;
 
-  onSort({column, direction}: SortEvent) {
+  onSort({ column, direction }: SortEvent) {
 
     // resetting other headers
     this.headers.forEach(header => {

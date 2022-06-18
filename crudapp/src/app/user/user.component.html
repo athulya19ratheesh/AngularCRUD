@@ -2,32 +2,38 @@
     <div class="container-fluid">
         <h2>Users</h2>
         <div class="form-group col-md-4">
-            <input class="searchTerm" type="text" name="searchTerm" 
-            placeholder="Search By Name"
-            [(ngModel)]="searchTerm" (input)="search(searchTerm)" />
-          </div>
+            <input class="searchTerm" type="text" name="searchTerm" placeholder="Search By Name"
+                [(ngModel)]="searchTerm" (input)="search(searchTerm)" />
+        </div>
     </div>
-  </nav>
-  
+</nav>
+
 <table class="table">
     <thead>
         <tr>
+            <th scope="col">Id</th>
             <th scope="col" sortable="name" (sort)="onSort($event)">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Age</th>
+            <th scope="col">Status</th>
+            <th scope="col" sortable="createdAt" (sort)="onSort($event)">Created Time</th>
             <th scope="col">Action</th>
         </tr>
     </thead>
 
     <tbody>
         <tr *ngFor="let row of userData | searchFilter: searchTerm; index as i">
+            <td>{{row.id}}</td>
             <td>{{row.name}}</td>
             <td>{{row.email}}</td>
             <td>{{row.age}}</td>
+            <td>{{row.statusMessage}}</td>
+            <td>{{row.createdAt}}</td>
             <td> <button type="button" (click)="onEdit(row)" class="btn btn-info" data-bs-toggle="modal"
                     data-bs-target="#exampleModal" data-bs-dismiss="modal">Edit</button>
-             <button type="button" (click)="deleteUser(row)" class="btn btn-danger"
-                    data-bs-dismiss="modal">Delete</button></td>
+                <button type="button" (click)="deleteUser(row)" class="btn btn-danger"
+                    data-bs-dismiss="modal">Delete</button>
+            </td>
         </tr>
     </tbody>
 </table>

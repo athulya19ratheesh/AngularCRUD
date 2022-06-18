@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../shared/api.service';
 import { UserModel } from '../user/user.model';
 
@@ -15,31 +15,54 @@ export class EditUserComponent implements OnInit {
   userModelObj: UserModel = new UserModel();
   userData !: any;
 
-  constructor(private formbuilder: FormBuilder, private api: ApiService, private router:Router) { }
+  constructor(private formbuilder: FormBuilder, private api: ApiService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.formValue = this.formbuilder.group({
       name: [''],
       email: [''],
       age: [''],
-      status:[''],
-      ispublic:[''],
-      createdat:['']
+      statusMessage: [''],
+      isPublic: [''],
+      createdAt: ['']
     })
+
+    this.getUsers();
+  }
+
+  getUsers() {
+    this.api.getUser()
+      .subscribe(res => {
+        this.userData = res.find((x: { id: any; }) => x.id == this.route.snapshot.params['id']);
+        this.userModelObj.id = this.userData.id
+        this.formValue.controls['name'].setValue(this.userData.name);
+        this.formValue.controls['age'].setValue(this.userData.age);
+        this.formValue.controls['email'].setValue(this.userData.email);
+        this.formValue.controls['isPublic'].setValue(this.userData.isPublic);
+        this.formValue.controls['statusMessage'].setValue(this.userData.statusMessage);
+        this.formValue.controls['createdAt'].setValue(this.userData.createdAt);
+      })
   }
 
   editUserDetails() {
     this.userModelObj.name = this.formValue.value.name;
     this.userModelObj.email = this.formValue.value.email;
     this.userModelObj.age = this.formValue.value.age;
+    this.userModelObj.statusMessage = this.formValue.value.statusMessage;
+
     this.api.updateUser(this.userModelObj, this.userModelObj.id)
       .subscribe(res => {
         alert("Successfully Updated")
         this.router.navigate(['users'])
       })
-    }
+  }
 
-    onCancel() {
-      this.router.navigate(['users'])
-    }
+  onCancel() {
+    this.router.navigate(['users'])
+  }
+
+  changeUserActiveStatus(e: any) {
+    this.userModelObj.isPublic = e.target.value;
+  }
+
 }
