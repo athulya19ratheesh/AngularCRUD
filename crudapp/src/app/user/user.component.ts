@@ -95,6 +95,7 @@ export class UserComponent implements OnInit {
 
   onPageChange() {
     this.page = this.page-1;
+    this.getUsers();
   }
 
   @ViewChildren(NgbdSortableHeader) headers!: QueryList<NgbdSortableHeader>;

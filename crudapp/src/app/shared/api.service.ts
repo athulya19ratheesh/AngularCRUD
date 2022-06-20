@@ -16,12 +16,12 @@ export class ApiService {
       }))
   }
 
-  getUser(limit:any,offset:any,search_value:string) {
+  getUser(limit: any, offset: number, search_value: string) {
 
-    let url = "https://mockend.com/safaldas/mock-api/users?limit="+limit+"&offest="+offset;
+    let url = "https://mockend.com/safaldas/mock-api/users?limit=" + limit + "&offset=" + offset;
 
-    if(search_value){
-      url = url +"&name_contains="+search_value;
+    if (search_value) {
+      url = url + "&name_contains=" + search_value;
     }
 
     return this.http.get<any>(url)
