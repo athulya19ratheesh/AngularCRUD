@@ -29,7 +29,7 @@
             <td>{{row.email}}</td>
             <td>{{row.age}}</td>
             <td>{{row.statusMessage}}</td>
-            <td>{{row.createdAt}}</td>
+            <td>{{row.createdAt|date}}</td>
             <td> <button type="button" (click)="onEdit(row)" class="btn btn-info" data-bs-toggle="modal"
                     data-bs-target="#exampleModal" data-bs-dismiss="modal">Edit</button>
                 <button type="button" (click)="deleteUser(row)" class="btn btn-danger"
