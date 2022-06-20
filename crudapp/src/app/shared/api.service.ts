@@ -10,28 +10,42 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   postUser(data: any) {
-    return this.http.post<any>("http://localhost:3000/posts", data)
+    return this.http.post<any>("https://mockend.com/safaldas/mock-api/users", data)
       .pipe(map((res: any) => {
         return res;
       }))
   }
 
-  getUser() {
-    return this.http.get<any>("http://localhost:3000/posts")
+  getUser(limit:any,offset:any,search_value:string) {
+
+    let url = "https://mockend.com/safaldas/mock-api/users?limit="+limit+"&offest="+offset;
+
+    if(search_value){
+      url = url +"&name_contains="+search_value;
+    }
+
+    return this.http.get<any>(url)
       .pipe(map((res: any) => {
         return res;
       }))
   }
 
   updateUser(data: any, id: number) {
-    return this.http.put<any>("http://localhost:3000/posts/" + id, data)
+    return this.http.put<any>("https://mockend.com/safaldas/mock-api/users/" + id, data)
       .pipe(map((res: any) => {
         return res;
       }))
   }
 
   deleteUser(id: number) {
-    return this.http.delete<any>("http://localhost:3000/posts/" + id)
+    return this.http.delete<any>("https://mockend.com/safaldas/mock-api/users/" + id)
+      .pipe(map((res: any) => {
+        return res;
+      }))
+  }
+
+  getUserById(id:any) {
+    return this.http.get<any>("https://mockend.com/safaldas/mock-api/users/"+id)
       .pipe(map((res: any) => {
         return res;
       }))

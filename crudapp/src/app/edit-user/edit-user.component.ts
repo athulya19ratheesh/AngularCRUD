@@ -27,13 +27,13 @@ export class EditUserComponent implements OnInit {
       createdAt: ['']
     })
 
-    this.getUsers();
+    this.getUsersById();
   }
 
-  getUsers() {
-    this.api.getUser()
+  getUsersById() {
+    this.api.getUserById(this.route.snapshot.params['id'])
       .subscribe(res => {
-        this.userData = res.find((x: { id: any; }) => x.id == this.route.snapshot.params['id']);
+        this.userData = res;
         this.userModelObj.id = this.userData.id
         this.formValue.controls['name'].setValue(this.userData.name);
         this.formValue.controls['age'].setValue(this.userData.age);

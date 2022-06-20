@@ -45,6 +45,9 @@ export class UserComponent implements OnInit {
   userData !: any;
   userDataList !: any;
   searchTerm = '';
+  page = 1;
+  pageSize = 5;
+  collectionSize: number =0;
 
   constructor(private formbuilder: FormBuilder, private api: ApiService, private router: Router) { }
 
@@ -66,9 +69,10 @@ export class UserComponent implements OnInit {
     this.router.navigate(['users/create'])
   }
 
-  getUsers() {
-    this.api.getUser()
+  getUsers(value:any=null) {
+    this.api.getUser(this.pageSize,this.page,value)
       .subscribe(res => {
+        this.collectionSize = 100;//res.length;
         this.userData = res;
       })
   }
@@ -86,9 +90,11 @@ export class UserComponent implements OnInit {
   }
 
   search(value: string): void {
-    this.userDataList = this.userData.filter((val: { name: string; }) =>
-      val.name.toLowerCase().includes(value)
-    );
+    this.userDataList = this.getUsers(value)
+  }
+
+  onPageChange() {
+    this.page = this.page-1;
   }
 
   @ViewChildren(NgbdSortableHeader) headers!: QueryList<NgbdSortableHeader>;
