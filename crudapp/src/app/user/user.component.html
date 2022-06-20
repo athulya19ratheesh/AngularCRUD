@@ -22,13 +22,14 @@
     </thead>
 
     <tbody>
-        <tr *ngFor="let row of userData | searchFilter: searchTerm; index as i">
+            <tr *ngFor="let row of userData | searchFilter: searchTerm; index as i">
+
             <td>{{row.id}}</td>
             <td>{{row.name}}</td>
             <td>{{row.email}}</td>
             <td>{{row.age}}</td>
             <td>{{row.statusMessage}}</td>
-            <td>{{row.createdAt}}</td>
+            <td>{{row.createdAt|date}}</td>
             <td> <button type="button" (click)="onEdit(row)" class="btn btn-info" data-bs-toggle="modal"
                     data-bs-target="#exampleModal" data-bs-dismiss="modal">Edit</button>
                 <button type="button" (click)="deleteUser(row)" class="btn btn-danger"
@@ -37,6 +38,8 @@
         </tr>
     </tbody>
 </table>
+<ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="5" [boundaryLinks]="true"
+    [pageSize]="pageSize" class="d-flex justify-content-center" (pageChange)="onPageChange()"></ngb-pagination>
 
 <!-- Button trigger modal -->
 <button type="button" (click)="clickAddUser()" class="btn btn-success" data-bs-toggle="modal"

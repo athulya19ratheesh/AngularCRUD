@@ -24,21 +24,17 @@ export class AddUserComponent implements OnInit {
       age: [''],
       status: [''],
       isPublic: [''],
-      createdat: [''],
+      createdAt: [''],
       statusMessage: [''],
       avatarUrl: ['']
     })
   }
 
   postUserDetails() {
-    this.userModelObj.name = this.formValue.value.name;
-    this.userModelObj.email = this.formValue.value.email;
-    this.userModelObj.age = this.formValue.value.age;
-    this.userModelObj.avatarUrl = this.formValue.value.avatarUrl;
-    this.userModelObj.isPublic = this.formValue.value.isPublic;
-    this.userModelObj.statusMessage = this.formValue.value.statusMessage;
+    this.userModelObj = this.formValue.value;
+    this.userModelObj.isPublic = true;
     this.userModelObj.createdAt = new Date();
-
+    
     this.api.postUser(this.userModelObj)
       .subscribe(res => {
         console.log("res", res)
